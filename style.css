@@ -1,0 +1,22 @@
+
+body {
+  margin: 0;
+  background: black;
+  overflow-x: hidden;
+  font-family: sans-serif;
+}
+canvas {
+  display: block;
+}
+.headline {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-size: 2em;
+  text-shadow: 0 0 10px cyan;
+  pointer-events: none;
+  z-index: 10;
+}
