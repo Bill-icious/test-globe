@@ -1,13 +1,124 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>The Alt HAN ECO: Earth Day Special</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      height: 300vh;
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      overflow-x: hidden;
+    }
+    .headline {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2em;
+      text-shadow: 0 0 10px cyan;
+      z-index: 10;
+    }
+    .article {
+      position: relative;
+      margin: 100vh auto 0;
+      padding: 20px;
+      width: 80%;
+      max-width: 800px;
+      background-color: rgba(0, 0, 0, 0.7);
+      line-height: 1.6;
+    }
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+  </style>
 </head>
 <body>
   <div class="headline">The Alt HAN ECO: Earth Day Special</div>
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="app.js"></script>
+  <script>
+    let scene, camera, renderer, earth, clouds, stars;
+
+    init();
+    animate();
+
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 3;
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      const loader = new THREE.TextureLoader();
+
+      const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
+      const earthMaterial = new THREE.MeshPhongMaterial({
+        map: loader.load('earthmap1k.jpg'),
+        bumpMap: loader.load('earthbump.jpg'),
+        bumpScale: 0.05,
+        specularMap: loader.load('specularmap.jpg'),
+        specular: new THREE.Color('grey')
+      });
+      earth = new THREE.Mesh(earthGeometry, earthMaterial);
+      scene.add(earth);
+
+      const cloudGeometry = new THREE.SphereGeometry(1.01, 64, 64);
+      const cloudMaterial = new THREE.MeshLambertMaterial({
+        map: loader.load('earthCloud.png'),
+        transparent: true
+      });
+      clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+      scene.add(clouds);
+
+      const starGeometry = new THREE.SphereGeometry(90, 64, 64);
+      const starMaterial = new THREE.MeshBasicMaterial({
+        map: loader.load('galaxy.png'),
+        side: THREE.BackSide
+      });
+      stars = new THREE.Mesh(starGeometry, starMaterial);
+      scene.add(stars);
+
+      const ambientLight = new THREE.AmbientLight(0x333333);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(5, 3, 5);
+      scene.add(directionalLight);
+
+      window.addEventListener('resize', onWindowResize);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const scrollRotation = window.scrollY * 0.002;
+      if (earth) earth.rotation.y = scrollRotation;
+      if (clouds) clouds.rotation.y = scrollRotation * 1.05;
+      renderer.render(scene, camera);
+    }
+  </script>
+
+  <div class="article">
+    <p>Our planet Earth is a vibrant, living world, teeming with ecosystems, lifeforms, and landscapes that stretch from ocean trenches to mountain peaks. It is the only known home to life in the universe, and it has provided us with everything we need to survive—from the oxygen we breathe to the water we drink and the soil that feeds us. But as our population and technology have grown, so too have the pressures we've placed upon it. Climate change, deforestation, plastic pollution, and habitat destruction are just a few of the issues threatening the health of our planet.</p>
+    <p>One of the simplest ways we can protect Earth is by being conscious of our consumption. Reducing single-use plastics, conserving energy, and choosing sustainable products can collectively make a significant impact. The use of renewable energy sources such as wind, solar, and hydro can drastically cut carbon emissions and reduce our dependence on fossil fuels. Even small changes in our daily lives—like cycling instead of driving, or turning off lights when leaving a room—can reduce our environmental footprint.</p>
+    <p>Biodiversity, the variety of life on Earth, is critical to the health of ecosystems. Every species has a role to play, and the loss of just one can set off a chain reaction that affects many others. By supporting conservation efforts, planting trees, and preserving natural habitats, we help protect the complex web of life that supports our own. It's also vital that we understand the importance of oceans—not only do they house an incredible array of life, but they also regulate the climate and provide oxygen.</p>
+    <p>Education plays a powerful role in driving change. The more we know about the challenges Earth faces and the solutions available, the more empowered we are to act. Schools, media, and public campaigns all contribute to raising awareness and inspiring people of all ages to take part in environmental stewardship. Sharing knowledge and leading by example can ripple through communities and spark lasting transformation.</p>
+    <p>Looking after Earth isn't just about avoiding damage—it's about restoring what has been lost. Rewilding efforts, ocean cleanup projects, and regenerative agriculture are all helping to heal the damage done. Supporting policies that prioritize environmental health, voting for green leaders, and holding corporations accountable are equally crucial. Earth is resilient, but it needs our help. If we work together—governments, industries, communities, and individuals—we can ensure that future generations inherit a planet as rich, diverse, and beautiful as the one we enjoy today.</p>
+  </div>
 </body>
 </html>
