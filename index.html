@@ -46,6 +46,8 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script>
     let scene, camera, renderer, earth, clouds, stars;
+    let targetRotation = 0;
+    let currentRotation = 0;
 
     init();
     animate();
@@ -96,6 +98,9 @@
       scene.add(directionalLight);
 
       window.addEventListener('resize', onWindowResize);
+      window.addEventListener('scroll', () => {
+        targetRotation = window.scrollY * 0.002;
+      });
     }
 
     function onWindowResize() {
@@ -106,19 +111,23 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      const scrollRotation = window.scrollY * 0.002;
-      if (earth) earth.rotation.y = scrollRotation;
-      if (clouds) clouds.rotation.y = scrollRotation * 1.05;
+
+      // Interpolate toward target
+      currentRotation += (targetRotation - currentRotation) * 0.05;
+
+      if (earth) earth.rotation.y = currentRotation;
+      if (clouds) clouds.rotation.y = currentRotation * 1.05;
+
       renderer.render(scene, camera);
     }
   </script>
 
   <div class="article">
-    <p>Our planet Earth is a vibrant, living world, teeming with ecosystems, lifeforms, and landscapes that stretch from ocean trenches to mountain peaks. It is the only known home to life in the universe, and it has provided us with everything we need to survive—from the oxygen we breathe to the water we drink and the soil that feeds us. But as our population and technology have grown, so too have the pressures we've placed upon it. Climate change, deforestation, plastic pollution, and habitat destruction are just a few of the issues threatening the health of our planet.</p>
-    <p>One of the simplest ways we can protect Earth is by being conscious of our consumption. Reducing single-use plastics, conserving energy, and choosing sustainable products can collectively make a significant impact. The use of renewable energy sources such as wind, solar, and hydro can drastically cut carbon emissions and reduce our dependence on fossil fuels. Even small changes in our daily lives—like cycling instead of driving, or turning off lights when leaving a room—can reduce our environmental footprint.</p>
-    <p>Biodiversity, the variety of life on Earth, is critical to the health of ecosystems. Every species has a role to play, and the loss of just one can set off a chain reaction that affects many others. By supporting conservation efforts, planting trees, and preserving natural habitats, we help protect the complex web of life that supports our own. It's also vital that we understand the importance of oceans—not only do they house an incredible array of life, but they also regulate the climate and provide oxygen.</p>
-    <p>Education plays a powerful role in driving change. The more we know about the challenges Earth faces and the solutions available, the more empowered we are to act. Schools, media, and public campaigns all contribute to raising awareness and inspiring people of all ages to take part in environmental stewardship. Sharing knowledge and leading by example can ripple through communities and spark lasting transformation.</p>
-    <p>Looking after Earth isn't just about avoiding damage—it's about restoring what has been lost. Rewilding efforts, ocean cleanup projects, and regenerative agriculture are all helping to heal the damage done. Supporting policies that prioritize environmental health, voting for green leaders, and holding corporations accountable are equally crucial. Earth is resilient, but it needs our help. If we work together—governments, industries, communities, and individuals—we can ensure that future generations inherit a planet as rich, diverse, and beautiful as the one we enjoy today.</p>
+    <p>Our planet Earth is a vibrant, living world, teeming with ecosystems, lifeforms, and landscapes that stretch from ocean trenches to mountain peaks. It is the only known home to life in the universe, and it has provided us with everything we need to survive—from the oxygen we breathe to the water we drink and the soil that feeds us. But as our population and technology have grown, so too have the pressures we've placed upon it...</p>
+    <p>One of the simplest ways we can protect Earth is by being conscious of our consumption. Reducing single-use plastics, conserving energy, and choosing sustainable products can collectively make a significant impact. The use of renewable energy sources such as wind, solar, and hydro can drastically cut carbon emissions and reduce our dependence on fossil fuels...</p>
+    <p>Biodiversity, the variety of life on Earth, is critical to the health of ecosystems. Every species has a role to play, and the loss of just one can set off a chain reaction that affects many others. By supporting conservation efforts, planting trees, and preserving natural habitats, we help protect the complex web of life that supports our own...</p>
+    <p>Education plays a powerful role in driving change. The more we know about the challenges Earth faces and the solutions available, the more empowered we are to act. Schools, media, and public campaigns all contribute to raising awareness and inspiring people of all ages to take part in environmental stewardship...</p>
+    <p>Looking after Earth isn't just about avoiding damage—it's about restoring what has been lost. Rewilding efforts, ocean cleanup projects, and regenerative agriculture are all helping to heal the damage done. Supporting policies that prioritize environmental health, voting for green leaders, and holding corporations accountable are equally crucial...</p>
   </div>
 </body>
 </html>
