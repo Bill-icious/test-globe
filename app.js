@@ -1,4 +1,3 @@
-
 let scene, camera, renderer, earth, clouds, stars;
 
 init();
@@ -54,6 +53,9 @@ function init() {
     scene.add(directionalLight);
 
     window.addEventListener('resize', onWindowResize, false);
+
+    // Make the page scrollable so rotation has range
+    document.body.style.height = '300vh';
 }
 
 function onWindowResize() {
@@ -64,8 +66,11 @@ function onWindowResize() {
 
 function animate() {
     requestAnimationFrame(animate);
-    const scrollFactor = window.scrollY * 0.002;
-    if (earth) earth.rotation.y = scrollFactor;
-    if (clouds) clouds.rotation.y = scrollFactor * 1.1;
+
+    const scrollRotation = window.scrollY * 0.002;
+
+    if (earth) earth.rotation.y = scrollRotation;
+    if (clouds) clouds.rotation.y = scrollRotation * 1.05;
+
     renderer.render(scene, camera);
 }
