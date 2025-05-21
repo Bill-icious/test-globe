@@ -29,7 +29,7 @@
       padding: 20px;
       width: 80%;
       max-width: 800px;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: transparent;
       line-height: 1.6;
     }
     canvas {
@@ -63,7 +63,7 @@
 
       const loader = new THREE.TextureLoader();
 
-      const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
+      const earthGeometry = new THREE.SphereGeometry(1.5, 64, 64);
       const earthMaterial = new THREE.MeshPhongMaterial({
         map: loader.load('earthmap1k.jpg'),
         bumpMap: loader.load('earthbump.jpg'),
@@ -74,7 +74,7 @@
       earth = new THREE.Mesh(earthGeometry, earthMaterial);
       scene.add(earth);
 
-      const cloudGeometry = new THREE.SphereGeometry(1.01, 64, 64);
+      const cloudGeometry = new THREE.SphereGeometry(1.53, 64, 64);
       const cloudMaterial = new THREE.MeshLambertMaterial({
         map: loader.load('earthCloud.png'),
         transparent: true
