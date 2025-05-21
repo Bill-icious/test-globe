@@ -113,7 +113,7 @@
       requestAnimationFrame(animate);
 
       // Interpolate toward target
-      currentRotation += (targetRotation - currentRotation) * 0.5;
+      currentRotation += (targetRotation - currentRotation) * 1;
 
       if (earth) earth.rotation.y = currentRotation;
       if (clouds) clouds.rotation.y = currentRotation * 1.05;
